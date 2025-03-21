@@ -1,0 +1,1 @@
+repository.class=co.edu.unicauca.layersmvc.access.CompanyRepository

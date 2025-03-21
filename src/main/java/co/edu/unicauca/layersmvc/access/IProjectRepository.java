@@ -11,12 +11,24 @@ import java.util.List;
  *
  * @author Katherine
  */
-public interface IProjectRepository  {
-     boolean save(Project newProject);
+public interface IProjectRepository {
 
-    boolean update(Project newProject);
-    
-    Project find(int No);
+    boolean save(Project project);
+
+    boolean update(Project project);
 
     List<Project> list();
+
+    Project findById(int projectId);
+
+    Project find(String projectName);
+
+    // Método para obtener proyectos de un estudiante
+    List<Project> getProjectsByStudentId(int studentId);
+    List<Project> listProjectsByStudent(int studentId);
+    public List<Integer> getStudentIdsByProject(int projectId);
+    void updateProjectStatus(int projectId, String status);
+
+
+
 }

@@ -5,8 +5,16 @@
 package co.edu.unicauca.layersmvc.presentacion;
 
 import co.edu.unicauca.layersmvc.access.CompanyRepository;
+import co.edu.unicauca.layersmvc.access.CoordinatorRepository;
+import co.edu.unicauca.layersmvc.access.ICompanyRepository;
+import co.edu.unicauca.layersmvc.access.ICoordinatorRepository;
+import co.edu.unicauca.layersmvc.access.IStudentRepository;
+import co.edu.unicauca.layersmvc.access.StudentRepository;
 import co.edu.unicauca.layersmvc.domain.Company;
+import co.edu.unicauca.layersmvc.domain.Coordinator;
+import co.edu.unicauca.layersmvc.domain.Student;
 import co.edu.unicauca.layersmvc.domain.service.ServiceCompany;
+import co.edu.unicauca.layersmvc.domain.service.ServiceUser;
 
 import javax.swing.JOptionPane;
 
@@ -14,13 +22,20 @@ import javax.swing.JOptionPane;
  *
  * @author Katherine
  */
-public class Registro extends javax.swing.JFrame {
-
+public class GUIAUserRegistrationView extends javax.swing.JFrame {
+private ServiceUser userService;
     /**
      * Creates new form Resgistrarse
      */
-    public Registro() {
+private ICoordinatorRepository coordinatorRepository;
+private ICompanyRepository companyRepository;
+private IStudentRepository studentRepository;
+
+    public GUIAUserRegistrationView(ICoordinatorRepository coordinatorRepository,ICompanyRepository companyRepository,IStudentRepository studentRepository) {
         initComponents();
+         this.coordinatorRepository = coordinatorRepository;
+         this.companyRepository = companyRepository;
+         this.studentRepository = studentRepository;
     }
 
     /**
@@ -74,9 +89,7 @@ public class Registro extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jNombre = new javax.swing.JLabel();
         jIdentificacion = new javax.swing.JLabel();
-        jsemestre = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        cmbSemestreEs = new javax.swing.JComboBox<>();
         jusuarioEs = new javax.swing.JLabel();
         jcontraseñaEs = new javax.swing.JLabel();
         txtidentificacionEs = new javax.swing.JTextField();
@@ -87,6 +100,8 @@ public class Registro extends javax.swing.JFrame {
         jcorreoEs = new javax.swing.JLabel();
         txtcorreoEs = new javax.swing.JTextField();
         PasswordEs = new javax.swing.JPasswordField();
+        jPanel4 = new javax.swing.JPanel();
+        jLabel7 = new javax.swing.JLabel();
         botonregresarRes = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
@@ -342,11 +357,7 @@ public class Registro extends javax.swing.JFrame {
 
         jIdentificacion.setText("Identificación:");
 
-        jsemestre.setText("Semestre:");
-
         jLabel1.setText("Apellidos:");
-
-        cmbSemestreEs.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jusuarioEs.setText("Usuario:");
 
@@ -371,7 +382,6 @@ public class Registro extends javax.swing.JFrame {
                     .addComponent(jIdentificacion)
                     .addComponent(jNombre)
                     .addComponent(jLabel1)
-                    .addComponent(jsemestre)
                     .addComponent(jusuarioEs)
                     .addComponent(jcontraseñaEs)
                     .addComponent(jcorreoEs))
@@ -380,11 +390,10 @@ public class Registro extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(BotonResEs))
-                    .addComponent(txtidentificacionEs)
+                    .addComponent(txtidentificacionEs, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                     .addComponent(txtnombreEs)
                     .addComponent(txtapellidosEs)
                     .addComponent(txtusuarioEs)
-                    .addComponent(cmbSemestreEs, 0, 167, Short.MAX_VALUE)
                     .addComponent(txtcorreoEs)
                     .addComponent(PasswordEs))
                 .addContainerGap(87, Short.MAX_VALUE))
@@ -404,11 +413,7 @@ public class Registro extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txtapellidosEs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jsemestre)
-                    .addComponent(cmbSemestreEs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jcorreoEs)
                     .addComponent(txtcorreoEs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -426,6 +431,27 @@ public class Registro extends javax.swing.JFrame {
         );
 
         jTabbedPane2.addTab("Estudiante", jPanel1);
+
+        jLabel7.setText("jLabel7");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(67, 67, 67)
+                .addComponent(jLabel7)
+                .addContainerGap(298, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(jLabel7)
+                .addContainerGap(301, Short.MAX_VALUE))
+        );
+
+        jTabbedPane2.addTab("Administrador", jPanel4);
 
         botonregresarRes.setText("Regresar");
         botonregresarRes.addActionListener(new java.awt.event.ActionListener() {
@@ -467,108 +493,154 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_txtusuarioCorActionPerformed
 
     private void BotonResEsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonResEsActionPerformed
-        String identificacion = txtidentificacionEs.getText();
-        String nombre = txtnombreEs.getText();
-        String apellidos = txtapellidosEs.getText();
-        String semestre = cmbSemestreEs.getSelectedItem().toString();
-        String correo = txtcorreoEs.getText();
-        String usuario = txtusuarioEs.getText();
-        String contraseña = new String(PasswordEs.getPassword());  // Obtener contraseña
+         String identificacionTexto = txtidentificacionEs.getText().trim();
+    String nombre = txtnombreEs.getText().trim();
+    String apellidos = txtapellidosEs.getText().trim();
+   
+    String correo = txtcorreoEs.getText().trim();
+    String usuario = txtusuarioEs.getText().trim();
+    String contraseña = new String(PasswordEs.getPassword()).trim();
 
-        // Validar que los campos no estén vacíos
-        if (identificacion.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()
-                || correo.isEmpty() || usuario.isEmpty() || contraseña.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
+    // Validaciones básicas
+    if (identificacionTexto.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()
+            || correo.isEmpty() || usuario.isEmpty() || contraseña.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Validar que la identificación sea un número
+    int identificacion;
+    try {
+        identificacion = Integer.parseInt(identificacionTexto);
+        if (identificacion <= 0) {
+            throw new NumberFormatException();
         }
+    } catch (NumberFormatException e) {
+        JOptionPane.showMessageDialog(this, "La identificación debe ser un número válido", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Aquí podrías guardar estos datos en una base de datos o usarlos según sea necesario
-        JOptionPane.showMessageDialog(this, "Estudiante registrado con éxito");
+    // Validar el correo
+    if (!correo.contains("@")) {
+        JOptionPane.showMessageDialog(this, "Ingrese un correo válido", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Limpiar los campos después de registrar
-        txtidentificacionEs.setText("");
-        txtnombreEs.setText("");
-        txtapellidosEs.setText("");
-        cmbSemestreEs.setSelectedIndex(0);
-        txtcorreoEs.setText("");
-        txtusuarioEs.setText("");
-        PasswordEs.setText("");
+    // Validar longitud mínima de la contraseña
+    if (contraseña.length() < 6) {
+        JOptionPane.showMessageDialog(this, "La contraseña debe tener al menos 6 caracteres", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+    // Crear instancia de servicio si no existe
+    if ( userService == null) {
+         userService = new ServiceUser(new CompanyRepository(), new CoordinatorRepository(), new StudentRepository());
+    }
+
+    // Verificar que el usuario no exista en ningún repositorio
+    if ( userService.findUserByUsername(usuario) != null) {
+        JOptionPane.showMessageDialog(this, "El usuario ya existe. Elija otro nombre de usuario.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
+
+
+    // Crear y guardar estudiante
+    // Crear y guardar estudiante sin pasar el estado
+Student newStudent = new Student(identificacion, nombre, apellidos, correo, usuario, contraseña);
+studentRepository.save(newStudent);
+
+    JOptionPane.showMessageDialog(this, "Estudiante registrado con éxito");
+
+    // Limpiar campos
+    txtidentificacionEs.setText("");
+    txtnombreEs.setText("");
+    txtapellidosEs.setText("");
+  
+    txtcorreoEs.setText("");
+    txtusuarioEs.setText("");
+    PasswordEs.setText("");
     }//GEN-LAST:event_BotonResEsActionPerformed
 
     private void BotonResCorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonResCorActionPerformed
-        String identificacion = txtidentificacionCor.getText();
-        String nombre = txtnombreCor.getText();
-        String apellidos = txtapellidosCor.getText();
-        String correo = txtcorreoCor.getText();
-        String usuario = txtusuarioCor.getText();
-        String contraseña = new String(PasswordCor.getPassword());  // Obtener contraseña
+String identificacion = txtidentificacionCor.getText();
+    String nombre = txtnombreCor.getText();
+    String apellidos = txtapellidosCor.getText();
+    String correo = txtcorreoCor.getText();
+    String usuario = txtusuarioCor.getText();
+    String contraseña = new String(PasswordCor.getPassword());  // Obtener contraseña
 
-        // Validar que los campos no estén vacíos
-        if (identificacion.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()
-                || correo.isEmpty() || usuario.isEmpty() || contraseña.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Validar que los campos no estén vacíos
+    if (identificacion.isEmpty() || nombre.isEmpty() || apellidos.isEmpty()
+            || correo.isEmpty() || usuario.isEmpty() || contraseña.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Aquí podrías guardar estos datos en una base de datos o usarlos según sea necesario
-        JOptionPane.showMessageDialog(this, "Coordinador registrado con éxito");
+    // Crear el coordinador y agregarlo al repositorio
+    Coordinator coordinator = new Coordinator(identificacion, nombre, apellidos, correo, usuario, contraseña);
+    coordinatorRepository.save(coordinator); // Agregar al repositorio
 
-        // Limpiar los campos después de registrar
-        txtidentificacionCor.setText("");
-        txtnombreCor.setText("");
-        txtapellidosCor.setText("");
-        txtcorreoCor.setText("");
-        txtusuarioCor.setText("");
-        PasswordCor.setText("");
+    // Mostrar mensaje de éxito
+    JOptionPane.showMessageDialog(this, "Coordinador registrado con éxito");
+
+    // Limpiar los campos después de registrar
+    txtidentificacionCor.setText("");
+    txtnombreCor.setText("");
+    txtapellidosCor.setText("");
+    txtcorreoCor.setText("");
+    txtusuarioCor.setText("");
+    PasswordCor.setText("");
+
+       
     }//GEN-LAST:event_BotonResCorActionPerformed
 
     private void BotonResEmpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonResEmpActionPerformed
-        String nit = txtnit.getText();
-        String nombre = txtnombreEm.getText();
-        String correo = txtcorreoEm.getText();
-        String sector = txtsectorEm.getText();
-        String contacto = txtcontactoEm.getText();
-        String nombrecontacto = txtnombrecontactoEm.getText();
-        String apellidoscontacto = txtapellidoscontactoEm.getText();
-        String cargocontacto = txtcargocontactoEm.getText();
+        int nit = Integer.parseInt(txtnit.getText().trim()); // Convertir a int
+    String nombre = txtnombreEm.getText();
+    String correo = txtcorreoEm.getText();
+    String sector = txtsectorEm.getText();
+    String contacto = txtcontactoEm.getText();
+    String nombrecontacto = txtnombrecontactoEm.getText();
+    String apellidoscontacto = txtapellidoscontactoEm.getText();
+    String cargocontacto = txtcargocontactoEm.getText();
+    String usuario = txtusuarioEm.getText();
+    String contraseña = new String(PasswordEm.getPassword()); // Convertir password a String
 
-        String usuario = txtusuarioEm.getText();
-        String contraseña = new String(PasswordEm.getPassword()); // Convertir password a String
+    // Validar que los campos no estén vacíos
+      // Validar que los demás campos no estén vacíos
+        if (nombre.isEmpty() || correo.isEmpty() || sector.isEmpty() || contacto.isEmpty() || 
+            nombrecontacto.isEmpty() || apellidoscontacto.isEmpty() || cargocontacto.isEmpty() || 
+            usuario.isEmpty() || contraseña.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
+        return;
+    }
 
-        // Validar que los campos no estén vacíos
-        if (nit.isEmpty() || nombre.isEmpty() || correo.isEmpty() || sector.isEmpty() || contacto.isEmpty() || nombrecontacto.isEmpty()
-                || apellidoscontacto.isEmpty() || cargocontacto.isEmpty() || usuario.isEmpty() || contraseña.isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Todos los campos son obligatorios.", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+    // Crear objeto Company con los datos ingresados
+    Company company = new Company(nit, nombre, correo, sector, contacto, nombrecontacto, apellidoscontacto, cargocontacto, usuario, contraseña);
+    companyRepository.save(company);
+   
 
-        // Crear el objeto Empresa con los datos
-        Company empresa = new Company(nit, nombre, correo, sector, contacto, nombrecontacto, apellidoscontacto, cargocontacto, usuario, contraseña);
-
-        // Crear una instancia del servicio y registrar la empresa
-        ServiceCompany empresaService = new ServiceCompany();
-      /*  if (empresaService.registrarEmpresa(empresa)) {
-            JOptionPane.showMessageDialog(this, "Empresa registrada exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
-            txtnit.setText("");
-            txtnombreEm.setText("");
-            txtcorreoEm.setText("");
-            txtsectorEm.setText("");
-            txtcontactoEm.setText("");
-            txtnombrecontactoEm.setText("");
-            txtapellidoscontactoEm.setText("");
-            txtcargocontactoEm.setText("");
-
-            txtusuarioEm.setText("");
-            PasswordEm.setText("");
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al registrar empresa.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-*/
+  
+        JOptionPane.showMessageDialog(this, "Empresa registrada exitosamente.", "Registro Exitoso", JOptionPane.INFORMATION_MESSAGE);
+        
+        // Limpiar los campos después del registro exitoso
+        txtnit.setText("");
+        txtnombreEm.setText("");
+        txtcorreoEm.setText("");
+        txtsectorEm.setText("");
+        txtcontactoEm.setText("");
+        txtnombrecontactoEm.setText("");
+        txtapellidoscontactoEm.setText("");
+        txtcargocontactoEm.setText("");
+        txtusuarioEm.setText("");
+        PasswordEm.setText("");
+       
+   
     }//GEN-LAST:event_BotonResEmpActionPerformed
 
     private void botonregresarResActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonregresarResActionPerformed
 
-        login login = new login();
+        GUIUserView login = new GUIUserView();
 
         login.setVisible(true);
 
@@ -592,21 +664,29 @@ public class Registro extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAUserRegistrationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAUserRegistrationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAUserRegistrationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIAUserRegistrationView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Registro().setVisible(true);
+               // Crear el repositorio (usando una implementación concreta)
+           ICoordinatorRepository coordinatorRepository = new CoordinatorRepository();  
+        ICompanyRepository companyRepository = new CompanyRepository();
+        IStudentRepository studentRepository = new StudentRepository();
+
+            // Crear la vista pasando el repositorio al constructor
+            new GUIAUserRegistrationView(coordinatorRepository, companyRepository, studentRepository).setVisible(true);
             }
         });
     }
@@ -619,7 +699,6 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JPasswordField PasswordEm;
     private javax.swing.JPasswordField PasswordEs;
     private javax.swing.JButton botonregresarRes;
-    private javax.swing.JComboBox<String> cmbSemestreEs;
     private javax.swing.JLabel jIdentificacion;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -627,10 +706,12 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jNombre;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
@@ -646,7 +727,6 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jnombre;
     private javax.swing.JLabel jnombrecontacto;
     private javax.swing.JLabel jsectorEm;
-    private javax.swing.JLabel jsemestre;
     private javax.swing.JLabel jusuarioEm;
     private javax.swing.JLabel jusuarioEs;
     private javax.swing.JTextField txtapellidosCor;

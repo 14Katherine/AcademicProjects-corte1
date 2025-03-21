@@ -8,40 +8,38 @@ package co.edu.unicauca.layersmvc.domain;
  *
  * @author Katherine
  */
-public class Company {
 
-    private String nit;
+public class Company extends User {
+    private int nit;
     private String nombre;
     private String correo;
     private String sector;
     private String contacto;
-    private String nombrecontacto;
-    private String apellidoscontacto;
-    private String cargocontacto;
+    private String nombreContacto;
+    private String apellidosContacto;
+    private String cargoContacto;
 
-    private String usuario;
-    private String contraseña;
-
-    // Constructor, Getters y Setters
-    public Company(String nit, String nombre, String correo, String sector, String contacto, String nombrecontacto, String apellidoscontacto, String cargocontacto, String usuario, String contraseña) {
+    // Constructor que incluye usuario y contraseña
+    public Company(int nit, String nombre, String correo, String sector, 
+                   String contacto, String nombreContacto, String apellidosContacto, 
+                   String cargoContacto, String usuario, String contraseña) {
+        super(usuario, contraseña, Role.EMPRESA); // Llamada al constructor de User
         this.nit = nit;
         this.nombre = nombre;
         this.correo = correo;
         this.sector = sector;
         this.contacto = contacto;
-        this.nombrecontacto = nombrecontacto;
-        this.apellidoscontacto = apellidoscontacto;
-        this.cargocontacto = cargocontacto;
-        this.usuario = usuario;
-        this.contraseña = contraseña;
+        this.nombreContacto = nombreContacto;
+        this.apellidosContacto = apellidosContacto;
+        this.cargoContacto = cargoContacto;
     }
 
     // Getters y Setters
-    public String getNit() {
+    public int getNit() {
         return nit;
     }
 
-    public void setNit(String nit) {
+    public void setNit(int nit) {
         this.nit = nit;
     }
 
@@ -53,18 +51,12 @@ public class Company {
         this.nombre = nombre;
     }
 
-    public String getContacto() {
-        return contacto;
-    }
-
-    public void setContacto(String contacto) {
-        this.contacto = contacto;
-    }
-
-   
-
     public String getCorreo() {
         return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getSector() {
@@ -75,47 +67,44 @@ public class Company {
         this.sector = sector;
     }
 
-    public String getNombrecontacto() {
-        return nombrecontacto;
+    public String getContacto() {
+        return contacto;
     }
 
-    public void setNombrecontacto(String nombrecontacto) {
-        this.nombrecontacto = nombrecontacto;
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
     }
 
-    public String getApellidoscontacto() {
-        return apellidoscontacto;
+    public String getNombreContacto() {
+        return nombreContacto;
     }
 
-    public void setApellidoscontacto(String apellidoscontacto) {
-        this.apellidoscontacto = apellidoscontacto;
+    public void setNombreContacto(String nombreContacto) {
+        this.nombreContacto = nombreContacto;
     }
 
-    public String getCargocontacto() {
-        return cargocontacto;
+    public String getApellidosContacto() {
+        return apellidosContacto;
     }
 
-    public void setCargocontacto(String cargocontacto) {
-        this.cargocontacto = cargocontacto;
+    public void setApellidosContacto(String apellidosContacto) {
+        this.apellidosContacto = apellidosContacto;
     }
 
-    public void setCorreo(String correo) {
-        this.correo = correo;
+    public String getCargoContacto() {
+        return cargoContacto;
     }
 
-    public String getUsuario() {
-        return usuario;
+    public void setCargoContacto(String cargoContacto) {
+        this.cargoContacto = cargoContacto;
     }
 
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public String getContraseña() {
-        return contraseña;
-    }
-
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    // Método para obtener solo los datos accesibles para el coordinador
+    public String getPublicCompanyDetails() {
+        return "NIT: " + nit + ", Nombre: " + nombre + ", Correo: " + correo + 
+               ", Sector: " + sector + ", Contacto: " + contacto + 
+               ", Nombre del Contacto: " + nombreContacto + 
+               ", Apellidos del Contacto: " + apellidosContacto + 
+               ", Cargo del Contacto: " + cargoContacto;
     }
 }

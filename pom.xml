@@ -14,7 +14,6 @@
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
     </properties>
-
     <dependencies>
         <!-- JCalendar dependency -->
         <dependency>
@@ -23,17 +22,19 @@
             <version>1.4</version>
         </dependency>
 
-        <!-- Swing Layout Extensions dependency -->
+      
         <dependency>
-            <groupId>org.jdesktop</groupId>
-            <artifactId>layout</artifactId>
-            <version>1.0.4</version>
+        <groupId>org.jdesktop</groupId>
+        <artifactId>layout</artifactId>
+        <version>1.0.4</version>
+    </dependency>
+        <!-- SQLite JDBC dependency -->
+        <dependency>
+            <groupId>org.xerial</groupId>
+            <artifactId>sqlite-jdbc</artifactId>
+            <version>3.36.0.3</version>
         </dependency>
-        <dependency>
-    <groupId>org.xerial</groupId>
-    <artifactId>sqlite-jdbc</artifactId>
-    <version>3.36.0.3</version>
-</dependency>
-
     </dependencies>
+
 </project>
+

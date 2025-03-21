@@ -4,19 +4,56 @@
  * and open the template in the editor.
  */
 package co.edu.unicauca.layersmvc.presentacion;
-import javax.swing.GroupLayout;
+
+import co.edu.unicauca.layersmvc.access.CompanyRepository;
+import co.edu.unicauca.layersmvc.access.CoordinatorRepository;
+import co.edu.unicauca.layersmvc.access.ICompanyRepository;
+import co.edu.unicauca.layersmvc.access.ICoordinatorRepository;
+import co.edu.unicauca.layersmvc.access.IProjectRepository;
+import co.edu.unicauca.layersmvc.access.IStudentRepository;
+import co.edu.unicauca.layersmvc.access.ProjectRepository;
+import co.edu.unicauca.layersmvc.access.StudentRepository;
+import co.edu.unicauca.layersmvc.domain.Project;
+import co.edu.unicauca.layersmvc.domain.Student;
+import co.edu.unicauca.layersmvc.domain.User;
+import co.edu.unicauca.layersmvc.domain.service.ServiceCompany;
+import co.edu.unicauca.layersmvc.domain.service.ServiceProject;
+import co.edu.unicauca.layersmvc.domain.service.ServiceUser;
+import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Katherine
  */
-public class login extends javax.swing.JFrame {
+public class GUIUserView extends javax.swing.JFrame {
+
+    private ServiceUser userService;  // Servicio de usuarios
+    // Suponiendo que tienes repositorios ya inicializados como ProjectRepository y StudentRepository
+    IProjectRepository projectRepository = new ProjectRepository(); // o tu implementación específica
+    IStudentRepository studentRepository = new StudentRepository(); // o tu implementación específica
+    // Inicializar los repositorios necesarios
+                ICompanyRepository companyRepository = new CompanyRepository();
+              
+
+    ServiceProject serviceProject = new ServiceProject(projectRepository, studentRepository);
+    List<Project> projectList = serviceProject.listProjects();
 
     /**
      * Creates new form login
      */
-    public login() {
+    public GUIUserView() {
         initComponents();
+
+    }
+
+    public String getCorreo() {
+        return txtusuario.getText().trim();  // Asumiendo que txtusuario es el JTextField del correo
+    }
+
+    // Método para obtener la contraseña ingresada
+    public String getContrasena() {
+        return new String(txtcontraseña.getPassword()).trim();  // Asumiendo que txtcontraseña es el JPasswordField
     }
 
     /**
@@ -32,9 +69,9 @@ public class login extends javax.swing.JFrame {
         usuario = new javax.swing.JLabel();
         txtusuario = new javax.swing.JTextField();
         contraseña = new javax.swing.JLabel();
-        txtcontraseña = new javax.swing.JTextField();
         BotonIniciarSeccion = new javax.swing.JButton();
         BotonRegistrar = new javax.swing.JButton();
+        txtcontraseña = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -51,6 +88,11 @@ public class login extends javax.swing.JFrame {
         contraseña.setText("CONTRASEÑA");
 
         BotonIniciarSeccion.setText("Ingresar");
+        BotonIniciarSeccion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BotonIniciarSeccionActionPerformed(evt);
+            }
+        });
 
         BotonRegistrar.setText("Registrar");
         BotonRegistrar.addActionListener(new java.awt.event.ActionListener() {
@@ -73,9 +115,9 @@ public class login extends javax.swing.JFrame {
                         .addContainerGap()
                         .add(contraseña)
                         .add(18, 18, 18)))
-                .add(PanelLoginLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(txtusuario, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 106, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(txtcontraseña, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 106, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(PanelLoginLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
+                    .add(txtusuario, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 106, Short.MAX_VALUE)
+                    .add(txtcontraseña))
                 .addContainerGap(114, Short.MAX_VALUE))
             .add(org.jdesktop.layout.GroupLayout.TRAILING, PanelLoginLayout.createSequentialGroup()
                 .add(0, 0, Short.MAX_VALUE)
@@ -124,15 +166,86 @@ public class login extends javax.swing.JFrame {
     }//GEN-LAST:event_txtusuarioActionPerformed
 
     private void BotonRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonRegistrarActionPerformed
-        // Crear una nueva instancia de la interfaz Registrar
-    Registro registrarVentana = new Registro();
-    
-    // Hacer visible la nueva ventana
-    registrarVentana.setVisible(true);
-    
-    // Cerrar la ventana actual 
-    this.dispose();
+        // Crear una instancia del repositorio, puedes utilizar la implementación que corresponda
+        ICoordinatorRepository coordinatorRepository = new CoordinatorRepository();
+        ICompanyRepository companyRepository = new CompanyRepository();
+        IStudentRepository studentRepository = new StudentRepository();
+        // Crear una nueva instancia de la ventana de registro, pasando el repositorio al constructor
+        GUIAUserRegistrationView registrarVentana = new GUIAUserRegistrationView(coordinatorRepository, companyRepository, studentRepository);
+
+        // Hacer visible la nueva ventana
+        registrarVentana.setVisible(true);
+
+        // Cerrar la ventana actual
+        this.dispose();
     }//GEN-LAST:event_BotonRegistrarActionPerformed
+
+    private void BotonIniciarSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BotonIniciarSeccionActionPerformed
+        String username = txtusuario.getText().trim();
+        String password = new String(txtcontraseña.getPassword()).trim();
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese usuario y contraseña.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (userService == null) {
+            userService = new ServiceUser(new CompanyRepository(), new CoordinatorRepository(), new StudentRepository());
+        }
+
+        User user = userService.validateUser(username, password);
+
+        if (user == null) {
+            JOptionPane.showMessageDialog(this, "Usuario o contraseña incorrectos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (user.getRole() == null) {
+            JOptionPane.showMessageDialog(this, "El usuario no tiene un rol asignado.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        switch (user.getRole()) {
+            case COORDINADOR:
+                // Obtener la lista de proyectos registrados como un ArrayList
+                new GUIACoordinatorView(projectList, studentRepository, projectRepository, serviceProject).setVisible(true);
+                break;
+
+            case EMPRESA:
+                
+
+                // Crear las instancias de los servicios con los repositorios necesarios
+                ServiceCompany serviceCompany = new ServiceCompany(companyRepository);
+                ServiceProject serviceProject = new ServiceProject(projectRepository, studentRepository);  // Pasar ambos repositorios
+
+                // Crear y mostrar la vista de la empresa
+                new GUICompanyView(serviceProject, serviceCompany).setVisible(true);
+                break;
+
+            case ESTUDIANTE:
+                // Verificar que el usuario es un estudiante
+                if (user instanceof Student) {
+                    Student currentStudent = (Student) user;
+
+                
+
+                    // Obtener la lista de proyectos desde el repositorio
+                    List<Project> projectList = projectRepository.list();
+
+                    // Crear la vista de estudiante y pasar los datos necesarios
+                    new GUIStudentView(projectList, currentStudent, projectRepository, studentRepository).setVisible(true);
+                } else {
+                    JOptionPane.showMessageDialog(this, "El usuario no es un estudiante válido.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                break;
+
+            default:
+                JOptionPane.showMessageDialog(this, "Rol no reconocido.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+        }
+
+        this.dispose(); // Cierra la ventana de login después de abrir la nueva
+    }//GEN-LAST:event_BotonIniciarSeccionActionPerformed
 
     /**
      * @param args the command line arguments
@@ -151,28 +264,36 @@ public class login extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIUserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIUserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIUserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(GUIUserView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
-            new login().setVisible(true);
+            new GUIUserView().setVisible(true);
         });
     }
 
+    public javax.swing.JButton getBtnRegistrar() {
+        return BotonRegistrar;
+    }
+
+    public javax.swing.JButton getBtnIniciarSeccion() {
+        return BotonIniciarSeccion;
+    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BotonIniciarSeccion;
     private javax.swing.JButton BotonRegistrar;
     private javax.swing.JPanel PanelLogin;
     private javax.swing.JLabel contraseña;
-    private javax.swing.JTextField txtcontraseña;
+    private javax.swing.JPasswordField txtcontraseña;
     private javax.swing.JTextField txtusuario;
     private javax.swing.JLabel usuario;
     // End of variables declaration//GEN-END:variables
